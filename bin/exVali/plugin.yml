@@ -1,0 +1,5 @@
+name: exVali
+main: com.github.chaomaster.exVali.exVali
+version: 0.0.1
+description: Checks aganist an external whitelisting server
+author: chao-master.github
