@@ -24,25 +24,23 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class exVali extends JavaPlugin implements TabExecutor, Listener {
 
-	HashMap<String, String> fromDisplay = null;
+	//HashMap<String, String> fromDisplay = null;
 
 	@Override
 	public void onEnable() {
-		fromDisplay = new HashMap<String, String>();
+		//fromDisplay = new HashMap<String, String>();
 		getServer().getPluginManager().registerEvents(this, this);
 	}
-
 	@EventHandler
 	void onPlayerLoginEvent(PlayerLoginEvent event) {
 		// Check with the server
 		try {
 			URL checkURL = new URL(
-					"http://mc.ukofequestria.co.uk/auth?username="
+					"http://mc.ukofequestria.co.uk/auth/index.php?username="
 							+ event.getPlayer().getName());
 			BufferedReader checkIn = new BufferedReader(new InputStreamReader(
 					checkURL.openStream()));
 			String[] checkResult = checkIn.readLine().split("\000", 4);
-			this.getLogger().info("DB:" + checkResult.length); // DEBUG
 			// Unverified account, displays validation code
 			if (checkResult[0] == "unverified") {
 				event.setResult(Result.KICK_WHITELIST);
@@ -88,6 +86,7 @@ public class exVali extends JavaPlugin implements TabExecutor, Listener {
 		}
 	}
 
+	/*
 	@EventHandler
 	void onPlayerJoinEvnet(PlayerJoinEvent event) {
 		fromDisplay.put(event.getPlayer().getDisplayName(), event.getPlayer()
@@ -102,19 +101,19 @@ public class exVali extends JavaPlugin implements TabExecutor, Listener {
 	@EventHandler
 	void onPlayerKickEvent(PlayerKickEvent event) {
 		fromDisplay.remove(event.getPlayer().getDisplayName());
-	}
+	}*/
 
 	@EventHandler
 	void onPlayerCommandPreprocessEvent(PlayerCommandPreprocessEvent event) {
 		String oldMsg = event.getMessage();
 		StringBuilder newMsg = new StringBuilder(oldMsg);
-		Matcher names = Pattern.compile("\b~([^ ])*").matcher(oldMsg);
+		Matcher names = Pattern.compile("(?<= )~([^ ]*)").matcher(oldMsg);
 		int mod = 0;
 		while (names.find()) {
 			String display = names.group(1);
 			String user = null;
 			for (Player p : this.getServer().getOnlinePlayers()) {
-				if (p.getDisplayName() == display) {
+				if (p.getDisplayName().equals(display)) {
 					user = p.getName();
 					break;
 				}
