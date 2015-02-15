@@ -6,3 +6,6 @@ exVali/bin/
 *.jar
 *.war
 *.ear
+/exVali/nbproject/private/
+/exVali/build/
+/exVali/dist/
